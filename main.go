@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 
 	tb "gopkg.in/tucnak/telebot.v2"
@@ -29,8 +32,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	b.Handle("/hello", func(m *tb.Message) {
-		b.Send(m.Sender, "Hi hito!")
+	b.Handle("/list", func(m *tb.Message) {
+		res, err := http.Get("https://pure-shore-25232.herokuapp.com/repuestos")
+		if err != nil {
+			fmt.Println(err)
+		}
+		data, _ := ioutil.ReadAll(res.Body)
+		b.Send(m.Sender, string(data))
 	})
 
 	b.Handle("nombre", func(m *tb.Message) {
