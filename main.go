@@ -33,6 +33,10 @@ func main() {
 		b.Send(m.Sender, "Hi hito!")
 	})
 
+	b.Handle("nombre", func(m *tb.Message) {
+		b.Send(m.Sender, "You entered "+m.Text)
+	})
+
 	b.Start()
 
 }
